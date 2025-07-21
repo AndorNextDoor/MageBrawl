@@ -17,12 +17,18 @@ public class PlayerSpellCastingTestManager : MonoBehaviour
 
     private void StartCasting(InputAction.CallbackContext obj)
     {
+        if (Cursor.lockState != CursorLockMode.Locked)
+            return;
+
         currentSpell = spellManager.GetCurrentSpell();
      
         if(currentSpell == null)
         {
             Debug.Log("No spells in the queue!");
+            return;
         }
+
+        spellManager.ClearSpellQueue();
 
         Debug.Log("Casted spell: " + currentSpell.spellName);
         // Start casting
@@ -30,7 +36,16 @@ public class PlayerSpellCastingTestManager : MonoBehaviour
  
     private void StopCasting(InputAction.CallbackContext obj)
     {
-        Debug.Log("Stopped casting: " + currentSpell.spellName);
+        if (Cursor.lockState != CursorLockMode.Locked)
+            return;
+
+        if (currentSpell == null)
+        {
+            Debug.Log("No spells in the queue!");
+            return;
+        }
+
+        Debug.Log("Stopped casting: " + currentSpell.spellName); 
         currentSpell = null;
     }
 }

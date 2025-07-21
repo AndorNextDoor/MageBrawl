@@ -2639,13 +2639,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   playersCanPlay:
-    m_InternalValue: 0
+    m_InternalValue: 1
   currentRoundPhase:
-    m_InternalValue: 0
+    m_InternalValue: 1
   centerOfMap: {fileID: 753435821}
   spawnRadius: 70
   roundTimers:
-  - 60
+  - 600
   - 20
   - 25
   buyTimer: 3

@@ -1,12 +1,15 @@
 using UnityEngine;
 using System.Collections.Generic;
+using System.Linq;
 
 public class PlayerSpellManager : MonoBehaviour
 {
     [SerializeField] List<SpellData> spellsList = new List<SpellData>();
 
     [SerializeField] private int maxSpellSlots = 2;
-    [SerializeField] List<  SpellData> currentSpellsQueue = new List<SpellData>(); // For multicasting
+    [SerializeField] List< SpellData> currentSpellsQueue = new List<SpellData>(); // For multicasting
+
+    [SerializeField] private PlayerSpellUIManager spellUIManager;
 
 
     public SpellData GetSpellByName(string spellName)
@@ -27,12 +30,16 @@ public class PlayerSpellManager : MonoBehaviour
         }
 
         currentSpellsQueue.Add(_newSpell);
+
+        spellUIManager.OnCurrentSpellsChanged(currentSpellsQueue);
     }
 
 
     public void ClearSpellQueue()
     {
         currentSpellsQueue.Clear();
+
+        spellUIManager.OnCurrentSpellsChanged(currentSpellsQueue);
     }
 
     public SpellData GetCurrentSpell()
@@ -42,7 +49,14 @@ public class PlayerSpellManager : MonoBehaviour
 
         if(currentSpellsQueue.Count > 1)
         {
-            return GetCombinedSpell();
+            SpellData combinedSpell = GetCombinedSpell();
+
+            if(combinedSpell == null)
+            {
+                currentSpellsQueue.Clear();
+            }
+
+            return combinedSpell;
         }
         else
         {
@@ -52,13 +66,32 @@ public class PlayerSpellManager : MonoBehaviour
 
     public SpellData GetCombinedSpell()
     {
-        string combinedSpellString = "";
+        List<ElementType> elements = new List<ElementType>();
 
-        foreach(SpellData spell in currentSpellsQueue)
+        foreach (var spell in currentSpellsQueue)
         {
-            combinedSpellString += spell.spellName;
+            elements.Add(spell.element);
         }
 
-        return GetSpellByName(combinedSpellString);
+        // Sort to make order irrelevant
+        elements.Sort();
+
+        // Find spell that matches these elements
+        foreach (var spell in spellsList)
+        {
+            if (spell.combination == null || spell.combination.Count == 0)
+                continue;
+
+            var combo = new List<ElementType>(spell.combination);
+            combo.Sort();
+
+            if (combo.Count == elements.Count && combo.SequenceEqual(elements))
+            {
+                return spell;
+            }
+        }
+
+        return null;
     }
+
 }

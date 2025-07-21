@@ -1,17 +1,20 @@
+using Unity.Netcode;
 using UnityEngine;
 
-public class BillboardNetwork : MonoBehaviour
+public class BillboardNetwork : NetworkBehaviour
 {
     private Transform cam;
 
-    void Start()
+    public override void OnNetworkSpawn()
     {
+        base.OnNetworkSpawn();
+
         cam = Camera.main.transform;
     }
 
     void LateUpdate()
     {
-        if (cam != null)
+        if (cam != null & IsOwner)
         {
             transform.LookAt(transform.position + cam.forward);
         }

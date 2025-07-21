@@ -69,7 +69,6 @@ public class PlayerGold : NetworkBehaviour
 
             if (IsInCombat)
             {
-                Debug.Log("Gaining gold...");
                 GetGoldServerRpc(2);
             }
 

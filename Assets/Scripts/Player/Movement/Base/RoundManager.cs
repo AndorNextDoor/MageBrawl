@@ -41,7 +41,7 @@ public class RoundManager : NetworkBehaviour
     {
         if (!IsServer) return;
 
-        currentRoundTimer.Value = 60;
+        currentRoundTimer.Value = 6000;
     }
 
     private void Update()
@@ -51,13 +51,13 @@ public class RoundManager : NetworkBehaviour
 
         currentRoundTimer.Value -= Time.deltaTime;
 
-        if (currentRoundTimer.Value <= 0)
-        {
-            if (lastRoundWasStoreRound)
-                StartCombatRound();
-            else
-                StartBuyRound();
-        }
+        //if (currentRoundTimer.Value <= 0)
+        //{
+        //    if (lastRoundWasStoreRound)
+        //        StartCombatRound();
+        //    else
+        //        StartBuyRound();
+        //}
     }
 
     public void SetTimerOnPlayersConnected()

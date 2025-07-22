@@ -49,4 +49,4 @@ MonoBehaviour:
   pushableLayers:
     serializedVersion: 2
     m_Bits: 1024
-  particleEffect: {fileID: 1000011210275196, guid: fa35d75604d172d48b7a6b62a07c7dbf, type: 3}
+  particleEffect: {fileID: 1956197547661106, guid: f293a2dcc753a4a489fefe7f8f312d69, type: 3}

@@ -37,8 +37,7 @@ public class WindPushSpell : MonoBehaviour, ICastableSpell
         castTimer += Time.deltaTime;
         if (castTimer >= data.maxChannelingTime)
         {
-            isCasting = false;
-            return;
+            StopCasting(caster, data);
         }
 
         Vector3 origin = caster.position + caster.forward * 1f;

@@ -41,11 +41,9 @@ public class FireBreathSpell : MonoBehaviour, ICastableSpell
         castTimer += Time.deltaTime;
         if(castTimer >= data.maxChannelingTime)
         {
-            isCasting = false;
-            return;
+            StopCasting(caster, data);
         }
-        Vector3 origin = caster.position + caster.forward * 1f;
-        Collider[] hitColliders = Physics.OverlapSphere(origin, radius, damageableLayers);
+        Collider[] hitColliders = Physics.OverlapSphere(caster.position, radius, damageableLayers);
 
         foreach (var hit in hitColliders)
         {
